@@ -879,6 +879,13 @@ const app = new Vue({
 });
 */
 
+Echo.channel('supporter.updated').listen('SupporterUpdated', function (e) {
+    console.log(e.supporter.uuid);
+    console.log(e.supporter.vorname);
+    console.log(e.supporter.nachname);
+    console.log(e.supporter.beitrag);
+});
+
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
@@ -1815,7 +1822,8 @@ window.Pusher = __webpack_require__(40);
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   broadcaster: 'pusher',
   key: 'b082179af665f98706cc',
-  cluster: 'eu'
+  cluster: 'eu',
+  encrypted: true
 });
 
 /***/ }),

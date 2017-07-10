@@ -24,3 +24,11 @@ const app = new Vue({
     el: '#app'
 });
 */
+
+Echo.channel('supporter.updated')
+    .listen('SupporterUpdated', (e) => {
+        console.log(e.supporter.uuid);
+        console.log(e.supporter.vorname);
+        console.log(e.supporter.nachname);
+        console.log(e.supporter.beitrag);
+    });

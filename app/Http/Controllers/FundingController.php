@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Supporter;
+use App\Events\SupporterUpdated;
 
 //a23498rcnwnhcfksn
 class FundingController extends Controller
@@ -84,6 +85,8 @@ class FundingController extends Controller
           $supporter->update($request->all());
         }
         $supporter->save();
+
+        event(new SupporterUpdated($supporter));
 
         return redirect()->action('FundingController@show', ['id' => $hexUuid]);
     }

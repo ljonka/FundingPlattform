@@ -17,3 +17,7 @@ Route::get('/', function () {
 
 //23498rcnwnhcfksn
 Route::resource('a23498rcnwnhcfksn', 'FundingController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
