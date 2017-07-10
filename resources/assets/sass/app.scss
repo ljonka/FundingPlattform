@@ -1,0 +1,33 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+/* a wrapper for the paginatior */
+.btn-group-wrap {
+    text-align: center;
+}
+
+div.btn-group {
+    margin: 0 auto;
+    text-align: center;
+    width: inherit;
+    display: inline-block;
+}
+
+a {
+    float: left;
+}
