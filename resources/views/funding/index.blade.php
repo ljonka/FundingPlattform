@@ -7,15 +7,18 @@
 
 @section('chart')
     <h3 class="text-center">Finanzierung für kleinen Workshop-Raum auf Schloss Pürkelgut</h3>
-    <h4 class="text-center">Gesamtbedarf: 600€ / Monat, aktueller Monat: September 2017</h4>
+    <h4 class="text-center">Gesamtbedarf: {{$calculation->complete}}€ / Monat, aktueller Monat: September 2017</h4>
     <div id="fundingchart">
         <canvas id="canvas"></canvas>
     </div>
     <div class="btn-group-wrap">
       <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-secondary">vorheriger Monat</button>
-        <a href="{{url('a23498rcnwnhcfksn/create')}}">
-          <button type="button" class="btn btn-secondary">neue Patenschaft eintagen</button>
+        <a href="{{url('a23498rcnwnhcfksn/create')}}" target="_blank">
+          <button type="button" class="btn btn-secondary">neue Patenschaft eintragen</button>
+        </a>
+        <a href="{{url('a23498rcnwnhcfksn/create_singlesupport')}}" target="_blank">
+          <button type="button" class="btn btn-secondary">Einmalbetrag setzen</button>
         </a>
         <button type="button" class="btn btn-secondary">nächster Monat</button>
       </div>
@@ -30,8 +33,8 @@
       names.push('{{$supporter->vorname}}');
       namesData.push('{{$supporter->beitrag}}');
       namesDataSecond.push('{{$supporter->beitrag - ($supporter->beitrag * 0.3)}}');
-      namesDataThird.push(100);
-      namesDataExtra.push(100);
+      namesDataThird.push({{$calculation->singlesupports}});
+      namesDataExtra.push({{$calculation->funded}});
     @endforeach
 
     var lineChartData = {
@@ -55,7 +58,7 @@
             borderColor: window.chartColors.orange,
             backgroundColor: window.chartColors.orange,
             fill: false,
-            data: namesDataExtra,
+            data: namesDataThird,
             yAxisID: "y-axis-1",
             pointRadius: 0,
             pointHoverRadius: 0,
@@ -65,7 +68,7 @@
             borderColor: window.chartColors.green,
             backgroundColor: window.chartColors.green,
             fill: true,
-            data: namesDataThird,
+            data: namesDataExtra,
             yAxisID: "y-axis-2",
             pointRadius: 0,
             pointHoverRadius: 0,
@@ -97,7 +100,7 @@
                         },
                         ticks:{
                           min: 0,
-                          max: 120
+                          max: {{$calculation->complete}}
                         },
                     }, {
                         type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance

@@ -10,12 +10,14 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Supporter;
+use App\Http\Controllers\FundingController;
 
 class SupporterUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $supporter;
+    public $calculation;
 
     /**
      * Create a new event instance.
@@ -25,6 +27,8 @@ class SupporterUpdated implements ShouldBroadcast
     public function __construct(Supporter $supporter)
     {
         $this->supporter = $supporter;
+        $supporters = Supporter::all();
+        $this->calculation = FundingController::getCurrentCalculation($supporters);
     }
 
     /**

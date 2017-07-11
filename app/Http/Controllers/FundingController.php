@@ -17,7 +17,10 @@ class FundingController extends Controller
     public function index()
     {
         $supporters = Supporter::all();
-        return view('funding.index', ['supporters' => $supporters]);
+        return view('funding.index', [
+          'supporters' => $supporters,
+          'calculation' => self::getCurrentCalculation($supporters)
+        ]);
     }
 
     /**
@@ -100,5 +103,18 @@ class FundingController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public static function getCurrentCalculation($supporters){
+      $complete = 600;
+      $funded = 0;
+      foreach($supporters as $supporter){
+        $funded += $supporter->beitrag;
+      }
+      return (object)[
+        'funded' => (100*$funded) / $complete,
+        'singlesupports' => 100,
+        'complete' => $complete
+      ];
     }
 }
