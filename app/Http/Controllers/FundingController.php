@@ -19,8 +19,7 @@ class FundingController extends Controller
         $supporters = Supporter::all();
         return view('funding.index', [
           'supporters' => $supporters,
-          'calculation' => self::getCurrentCalculation($supporters),
-          'key' => config('broadcasting.connections.pusher.key')
+          'calculation' => self::getCurrentCalculation($supporters)
         ]);
 
     }
