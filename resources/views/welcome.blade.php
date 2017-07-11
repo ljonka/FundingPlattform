@@ -90,6 +90,9 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
               -->
+              <div class="center-block">
+                {!! QrCode::size(200)->generate(action('FundingController@create')); !!}
+              </div>
             </div>
         </div>
     </body>

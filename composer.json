@@ -12,6 +12,7 @@
         "laravelcollective/html": "^5.4.0",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "2.6.4",
+        "simplesoftwareio/simple-qrcode": "^1.5",
         "vinkla/pusher": "2.5"
     },
     "require-dev": {
