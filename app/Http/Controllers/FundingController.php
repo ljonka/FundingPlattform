@@ -20,12 +20,7 @@ class FundingController extends Controller
      */
     public function index()
     {
-        $supporters = Supporter::all();
-        return view('funding.index', [
-          'supporters' => $supporters,
-          'calculation' => self::getCurrentCalculation($supporters)
-        ]);
-
+        
     }
 
     /**

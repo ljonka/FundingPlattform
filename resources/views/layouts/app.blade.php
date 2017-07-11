@@ -34,7 +34,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Alternatives Wohnen</a>
+          <a class="navbar-brand" href="/">Alternatives Wohnen</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -43,10 +43,26 @@
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
             -->
+
+            @if (!Auth::guest())
+            <li>
+              <a href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                   document.getElementById('logout-form').submit();">
+                Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+              </form>
+            </li>
           </ul>
+          @endif
         </div><!--/.nav-collapse -->
+
       </div>
     </nav>
+
+    @yield('content')
 
     <div class="container">
 

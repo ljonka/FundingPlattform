@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Supporter;
+use App\Events\SupporterUpdated;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+      $supporters = Supporter::all();
+      return view('funding.index', [
+        'supporters' => $supporters,
+        'calculation' => FundingController::getCurrentCalculation($supporters)
+      ]);
+      return view('home');
     }
 }
