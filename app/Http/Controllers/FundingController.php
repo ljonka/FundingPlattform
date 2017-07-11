@@ -90,7 +90,7 @@ class FundingController extends Controller
         }
         $supporter->save();
 
-        event(new SupporterUpdated($supporter));
+        broadcast(new SupporterUpdated($supporter));
 
         return redirect()->action('FundingController@show', ['id' => $hexUuid]);
     }
@@ -114,7 +114,7 @@ class FundingController extends Controller
       }
       return (object)[
         'funded' => (100*$funded) / $complete,
-        'singlesupports' => 100,
+        'singlesupports' => 0,
         'complete' => $complete
       ];
     }
