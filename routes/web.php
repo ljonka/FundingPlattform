@@ -16,7 +16,12 @@ Route::get('/', function () {
 });
 
 //23498rcnwnhcfksn
-Route::resource('a23498rcnwnhcfksn', 'FundingController');
+$cryptBaseUrl = 'a23498rcnwnhcfksn';
+Route::prefix($cryptBaseUrl)->group(function () {
+  Route::get('share', 'FundingController@share');
+});
+
+Route::resource($cryptBaseUrl, 'FundingController');
 
 Auth::routes();
 

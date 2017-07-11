@@ -14,11 +14,16 @@
     <div class="btn-group-wrap">
       <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-secondary">vorheriger Monat</button>
+        <!--
         <a href="{{url('a23498rcnwnhcfksn/create')}}" target="_blank">
           <button type="button" class="btn btn-secondary">neue Patenschaft eintragen</button>
         </a>
         <a href="{{url('a23498rcnwnhcfksn/create_singlesupport')}}" target="_blank">
           <button type="button" class="btn btn-secondary">Einmalbetrag setzen</button>
+        </a>
+        -->
+        <a href="{{action('FundingController@share')}}" target="_blank">
+          <button type="button" class="btn btn-secondary">Teilnehmende einladen</button>
         </a>
         <button type="button" class="btn btn-secondary">nächster Monat</button>
       </div>

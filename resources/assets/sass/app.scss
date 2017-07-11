@@ -31,3 +31,20 @@ div.btn-group {
 a {
     float: left;
 }
+
+body::after{
+  background: url("../images/Tumbleweed-Tiny-House-Village.jpg");
+  background-size: 100% auto;
+  opacity: 0.09;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+  content: "";
+}
+
+.qrinvite{
+  margin-top: 20px;
+}

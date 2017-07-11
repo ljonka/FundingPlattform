@@ -9,6 +9,10 @@ use App\Events\SupporterUpdated;
 //a23498rcnwnhcfksn
 class FundingController extends Controller
 {
+
+    public function share(){
+      return view('funding.share');
+    }
     /**
      * Display a listing of the resource.
      *
