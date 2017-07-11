@@ -18,6 +18,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script>
+      window.key = "{{$key}}";
+    </script>
     <script src="/js/app.js"></script>
   </head>
   <body>
