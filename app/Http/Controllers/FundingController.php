@@ -20,7 +20,7 @@ class FundingController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -108,11 +108,21 @@ class FundingController extends Controller
     public static function getCurrentCalculation($supporters){
       $complete = 600;
       $funded = 0;
+      $factor = 1;
       foreach($supporters as $supporter){
         $funded += $supporter->beitrag;
       }
+      if($funded > $complete){
+        $diff = $funded - $complete;
+        $firstFund = (count($supporters) > 0) ? $supporters[0]->beitrag : 0;
+        $firstFactor = $firstFund / $funded;
+        $firstDiff = $diff * $firstFactor;
+        $factor = 1 - (1 * ($firstDiff/$firstFund));
+      }
+
       return (object)[
-        'funded' => (100*$funded) / $complete,
+        'funded' => (100*($funded * $factor)) / $complete,
+        'factor' => $factor,
         'singlesupports' => 0,
         'complete' => $complete
       ];

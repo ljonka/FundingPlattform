@@ -26,10 +26,9 @@ class HomeController extends Controller
     public function index()
     {
       $supporters = Supporter::all();
-      return view('funding.index', [
+      return view('home', [
         'supporters' => $supporters,
         'calculation' => FundingController::getCurrentCalculation($supporters)
       ]);
-      return view('home');
     }
 }

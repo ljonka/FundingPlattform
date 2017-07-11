@@ -31,8 +31,8 @@
     var namesDataExtra = [];
     @foreach($supporters as $supporter)
       names.push('{{$supporter->vorname}}');
-      namesData.push('{{$supporter->beitrag}}');
-      namesDataSecond.push('{{$supporter->beitrag - ($supporter->beitrag * 0.3)}}');
+      namesData.push({{$supporter->beitrag}});
+      namesDataSecond.push({{$supporter->beitrag * $calculation->factor}});
       namesDataThird.push({{$calculation->singlesupports}});
       namesDataExtra.push({{$calculation->funded}});
     @endforeach
