@@ -26,6 +26,8 @@ class CreateSupportersTable extends Migration
             $table->string('land');
             $table->float('beitrag');
             $table->index(['uuid']);
+            $table->integer('campaign_id');
+            $table->foreign('campaign_id')->references('id')->on('campaigns');
         });
     }
 
