@@ -16,13 +16,17 @@ Route::get('/', function () {
 });
 
 //23498rcnwnhcfksn
+/*
 $cryptBaseUrl = 'a23498rcnwnhcfksn';
 Route::prefix($cryptBaseUrl)->group(function () {
   Route::get('share', 'FundingController@share');
 });
 
 Route::resource($cryptBaseUrl, 'FundingController');
+*/
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource( '/kampagnen', 'CampaignController');

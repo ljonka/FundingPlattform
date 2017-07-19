@@ -72,7 +72,7 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
-                        <!--<a href="{{ url('/register') }}">Register</a>-->
+                        <a href="{{ url('/register') }}">Register</a>
                     @endif
                 </div>
             @endif
@@ -81,20 +81,7 @@
                 <div class="title m-b-md">
                     Alternatives Wohnen Regensburg
                 </div>
-                <div class="m-b-md">
-                    Finanzierung
-                </div>
-                <form class="form-inline">
-                  <div class="form-group">
-                    <label for="invite-code">Teilnahme-Code</label>
-                    <input type="text" class="form-control" id="invite-code" placeholder="z.B. 3ezgBz">
-                  </div>
-                  <div class="form-group">
-                    <label for="email">E-Mail</label>
-                    <input type="text" class="form-control" id="email" placeholder="z.B. info@me.com">
-                  </div>
-                  <button type="button" class="btn btn-default">Daten prüfen</button>
-                </form>
+
                 <!--
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>

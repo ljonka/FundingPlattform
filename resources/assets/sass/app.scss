@@ -35,7 +35,7 @@ a {
 body::after{
   background: url("../images/Tumbleweed-Tiny-House-Village.jpg");
   background-size: 100% auto;
-  opacity: 0.09;
+  opacity: 0.5;
   top: 0;
   left: 0;
   bottom: 0;
@@ -47,4 +47,8 @@ body::after{
 
 .qrinvite{
   margin-top: 20px;
+}
+
+.list-group-item{
+  width: 100%;
 }
