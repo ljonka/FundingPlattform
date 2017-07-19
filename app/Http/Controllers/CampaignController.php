@@ -76,7 +76,10 @@ class CampaignController extends Controller
     public function show($id)
     {
         $campaign = Campaign::find($id);
-        $supporters = Supporter::where('campaign_id', $campaign->id)->get();
+        $supporters = Supporter::where([
+          ['campaign_id', $campaign->id],
+          ['beitrag', '>', 0]
+          ])->get();
         $calculation = $campaign->calculation();
         return view('campaigns.show', [
           'campaign' => $campaign,
