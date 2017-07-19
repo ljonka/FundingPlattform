@@ -180,22 +180,14 @@ window.onload = function() {
         }
     });
 };
-
 window.Echo = new window.EchoBase({
    broadcaster: 'pusher',
    key: '{{$key}}',
    cluster: 'eu',
    encrypted: true
 });
-
 window.Echo.channel('supporter.updated')
     .listen('SupporterUpdated', (e) => {
-      /*
-        console.log(e.supporter.uuid);
-        console.log(e.supporter.vorname);
-        console.log(e.supporter.nachname);
-        console.log(e.supporter.beitrag);
-        */
         var updatePosition = -1;
         for (var k in window.myLine.data.labels){
             if (window.myLine.data.labels[k] === e.supporter.vorname) {
@@ -220,6 +212,7 @@ window.Echo.channel('supporter.updated')
       });
       window.myLine.update();
     });
+
     function isEmail(email) {
       var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       return regex.test(email);

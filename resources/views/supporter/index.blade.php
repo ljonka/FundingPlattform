@@ -15,7 +15,7 @@
                     @if($campaign->repeated_campaign)
                       <b>/ {{$campaign->repeat_interval}} Tage</b>
                     @endif
-                    , Aktuell finanziert: <b>{{$calculation->funded_round}} % bzw. {{$calculation->complete * $calculation->funded}} € von {{$calculation->complete}} €</b>
+                    , Aktuell finanziert: <b>{{$calculation->funded_round}} % bzw. {{($calculation->complete * $calculation->funded) / 100}} € von {{$calculation->complete}} €</b>
                   </h4>
                   {{Form::model($supporter, ['action' => ['SupporterController@update', $supporter->id], 'files' => true, 'method' => 'PATCH'])}}
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Campaign;
 use App\Invitation;
 use App\Supporter;
+use App\Events\SupporterUpdated;
 
 class SupporterController extends Controller
 {
@@ -103,6 +104,8 @@ class SupporterController extends Controller
         $supporter->update($request->all());
         $supporter->save();
         $campaign = Campaign::find($supporter->campaign_id);
+
+        broadcast(new SupporterUpdated($supporter));
 
         return redirect()->action('SupporterController@support', [
           'campaign_uuid' => $campaign->uuid,
