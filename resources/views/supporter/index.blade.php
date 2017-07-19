@@ -70,12 +70,18 @@
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label for="beitrag">Mein Beitrag:</label>
+                        <label for="beitrag">Mein Beitrag in €:</label>
                         @if($supporter->beitrag !== null)
-                        <input type="text" class="form-control select-amount" id="beitrag" name="beitrag" value="{{$supporter->beitrag}}" required autofocus>
+                        <input type="number" min="0" class="form-control select-amount" id="beitrag" name="beitrag" value="{{$supporter->beitrag}}" required autofocus>
                         @else
-                        <input type="text" class="form-control" id="beitrag" name="beitrag" value="{{$supporter->beitrag}}" required>
+                        <input type="number" min="0" class="form-control" id="beitrag" name="beitrag" value="{{$supporter->beitrag}}" required>
                         @endif
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="iban">IBAN</label>
+                        <input type="text" class="form-control select-amount" id="iban" name="iban" value="{{$supporter->iban}}" required>
                       </div>
                     </div>
                   </div>
