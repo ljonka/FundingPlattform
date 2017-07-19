@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label for="beitrag">Mein Beitrag in €:</label>
+                        <label for="beitrag" title="Wenn der Gesamtbetrag überschritten wird, sinkt der Beitrag von allen Teilnehmenden automatisch.">Mein maximaler Beitrag in €:</label>
                         @if($supporter->beitrag !== null)
                         <input type="number" min="0" class="form-control select-amount" id="beitrag" name="beitrag" value="{{$supporter->beitrag}}" required autofocus>
                         @else
