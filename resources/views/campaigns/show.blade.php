@@ -87,7 +87,7 @@ var lineChartData = {
         pointHitRadius: 0
     }]
 };
--
+
 window.onload = function() {
     var ctx = document.getElementById("canvas").getContext("2d");
     window.myLine = Chart.Line(ctx, {
