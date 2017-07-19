@@ -57,7 +57,8 @@ class CampaignController extends Controller
         return view('campaigns.show', [
           'campaign' => $campaign,
           'supporters' => $supporters,
-          'calculation' => $calculation
+          'calculation' => $calculation,
+          'key' => env('PUSHER_APP_KEY')
         ]);
     }
 
