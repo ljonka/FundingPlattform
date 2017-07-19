@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -878,38 +878,6 @@ const app = new Vue({
     el: '#app'
 });
 */
-
-Echo.channel('supporter.updated').listen('SupporterUpdated', function (e) {
-  /*
-    console.log(e.supporter.uuid);
-    console.log(e.supporter.vorname);
-    console.log(e.supporter.nachname);
-    console.log(e.supporter.beitrag);
-    */
-  var updatePosition = -1;
-  for (var k in window.myLine.data.labels) {
-    if (window.myLine.data.labels[k] === e.supporter.vorname) {
-      updatePosition = k;
-    }
-    //update real sum for all existing entries based on return factor
-    window.myLine.data.datasets[1].data.splice(k, 1, window.myLine.data.datasets[0].data[k] * e.calculation.factor);
-  }
-  if (updatePosition >= 0) {
-    window.myLine.data.datasets[0].data.splice(updatePosition, 1, e.supporter.beitrag);
-    window.myLine.data.datasets[1].data.splice(updatePosition, 1, e.supporter.beitrag * e.calculation.factor);
-  } else {
-    window.myLine.data.labels.push(e.supporter.vorname);
-    window.myLine.data.datasets[0].data.push(e.supporter.beitrag);
-    window.myLine.data.datasets[1].data.push(e.supporter.beitrag * e.calculation.factor);
-    window.myLine.data.datasets[2].data.push(e.calculation.singlesupports);
-    window.myLine.data.datasets[3].data.push(e.calculation.funded);
-  }
-  window.myLine.data.datasets[2].data.forEach(function (element, index, array) {
-    window.myLine.data.datasets[2].data.splice(index, 1, e.calculation.singlesupports);
-    window.myLine.data.datasets[3].data.splice(index, 1, e.calculation.funded);
-  });
-  window.myLine.update();
-});
 
 /***/ }),
 /* 11 */
@@ -1811,16 +1779,11 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-
-
 window.Pusher = __webpack_require__(39);
 
-window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
-  broadcaster: 'pusher',
-  key: window.key,
-  cluster: 'eu',
-  encrypted: true
-});
+
+
+window.EchoBase = __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a;
 
 /***/ }),
 /* 31 */
