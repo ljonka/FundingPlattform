@@ -49,7 +49,7 @@ class CampaignInvited extends Notification
                     ->from('info@transition-regensburg.de', 'Alternatives Wohnen - Transition Regensburg')
                     ->subject('Einladung zur Teilname an '. $this->campaign->name)
                     ->greeting('Hallo!')
-                    ->line('Dies ist deine Einladung zur Teilnahme am Projekt ' . $this->campaign->name)
+                    ->line('Dies ist deine persönliche Einladung zur Teilnahme am Projekt ' . $this->campaign->name)
                     ->line('')
                     ->line($this->campaign->description)
                     ->action('Jetzt mitmachen', action(
@@ -57,6 +57,7 @@ class CampaignInvited extends Notification
                         'campaign_uuid' => $this->campaign->uuid,
                         'invitation_uuid' => $notifiable->uuid
                       ]))
+                    ->line('Der Link bleibt weiterhin gültig, so kannst du deine Daten später selber aktualisieren, aus dem Grund sollte diese Mail auch nicht weitergegeben werden.')
                     ->line('Schön dass du dabei bist!');
     }
 
