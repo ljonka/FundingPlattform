@@ -14,7 +14,7 @@
                     @foreach ($campaigns as $campaign)
                         <a href="{{action('CampaignController@show', $campaign->id)}}"
                           class="list-group-item list-group-item-action">
-                          {{$campaign->name}}
+                          {{$campaign->name}}                          
                         </a>
                     @endforeach
                   </div>

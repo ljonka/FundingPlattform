@@ -9,6 +9,7 @@ require('./bootstrap');
 require('../../../node_modules/chart.js/dist/Chart.bundle');
 require('./utils');
 window.NameGenerator = require('../../../node_modules/nodejs-randomnames/NameGenerator');
+window.TagsInput = require('../../../node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput');
 
 window.Vue = require('vue');
 

@@ -8,48 +8,84 @@
                 <div class="panel-heading">Kampagne</div>
 
                 <div class="panel-body">
-                  <h3 class="text-center">Finanzierung für {{$campaign->name}}</h3>
+                  <h3 class="text-center">Finanzierung für {{$campaign->name}} <a href="{{action('CampaignController@edit', $campaign->id)}}" class="pull-right" title="Kampagne bearbeiten"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></h3>
                   <h5 class="text-center">{{$campaign->description}}</h5>
                   <h4 class="text-center">
                     Gesamtbedarf: <b>{{$calculation->complete}} €</b>
                     @if($campaign->repeated_campaign)
                       <b>/ {{$campaign->repeat_interval}} Tage</b>
                     @endif
+                    , Aktuell finanziert: <b>{{$calculation->funded_round}} % bzw. {{($calculation->complete * $calculation->funded) / 100}} € von {{$calculation->complete}} €</b>
                   </h4>
                   <div id="fundingchart">
                       <canvas id="canvas"></canvas>
                   </div>
-                  <div class="btn-group-wrap">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                      <!--<button type="button" class="btn btn-secondary">vorheriger Monat</button>-->
-                      <!--
-                      <a href="{{url('a23498rcnwnhcfksn/create')}}" target="_blank">
-                        <button type="button" class="btn btn-secondary">neue Patenschaft eintragen</button>
-                      </a>
-                      <a href="{{url('a23498rcnwnhcfksn/create_singlesupport')}}" target="_blank">
-                        <button type="button" class="btn btn-secondary">Einmalbetrag setzen</button>
-                      </a>
-                      -->
-                      <!--
-                      <a href="#" target="_blank">
-                        <button type="button" class="btn btn-secondary">Teilnehmende einladen</button>
-                      </a>
-                    --><!--
-                      <button type="button" class="btn btn-secondary">nächster Monat</button>
-                    -->
+
+                  <!-- Trigger the modal with a button -->
+                  <button type="button" class="btn btn-info col-md-3 col-md-offset-4" data-toggle="modal" data-target="#myModal">Einladungen</button>
+
+                  <!-- Modal -->
+                  <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <form id="invite-form">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Einladungen</h4>
+                          </div>
+                          <div class="modal-body">
+                              <div class="form-group">
+                                <label for="supporters">Teilnehmende</label>
+                                <input type="text" data-role="tagsinput" id="supporters" class="form-control">
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="submit" class="btn btn-default">Speichern</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                          </div>
+                        </form>
+                      </div>
+
                     </div>
                   </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-var names = [];
-var namesData = [];
-var namesDataSecond = [];
-var namesDataThird = [];
-var namesDataExtra = [];
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$('#myModal').on('shown.bs.modal', function () {
+    $('#supporters').tagsinput('focus');
+});
+
+$('#invite-form').submit(function(event){
+  var mails = $('#supporters').val();
+  $.post({
+    url: '{{action("CampaignController@invite", $campaign->id)}}',
+    data: {'mails': mails },
+    success: function(data, status){
+
+    },
+    dataType: 'json'
+  });
+  $('#myModal').modal('hide');
+  $('#supporters').tagsinput('removeAll');
+  event.preventDefault();
+});
+var names = []; //name
+var namesData = []; //beitrag
+var namesDataSecond = []; //berechnetter beitrag
+var namesDataThird = []; //tellerspenden
+var namesDataExtra = []; //gesamtfinanzierung in %
 @foreach($supporters as $supporter)
   names.push('{{$supporter->vorname}}');
   namesData.push({{$supporter->beitrag}});
@@ -152,7 +188,7 @@ window.Echo = new window.EchoBase({
    encrypted: true
 });
 
-Echo.channel('supporter.updated')
+window.Echo.channel('supporter.updated')
     .listen('SupporterUpdated', (e) => {
       /*
         console.log(e.supporter.uuid);
@@ -183,6 +219,19 @@ Echo.channel('supporter.updated')
         window.myLine.data.datasets[3].data.splice(index, 1, e.calculation.funded);
       });
       window.myLine.update();
+    });
+    function isEmail(email) {
+      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      return regex.test(email);
+    }
+
+    //validate input e-mails
+    $('#supporters').on('beforeItemAdd', function(event) {
+       var tag = event.item;
+       if(!isEmail(tag)){
+         event.cancel = true;
+       }
+       return true;
     });
 
 </script>

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Supporter;
 /*
 $table->string('uuid')->unique();
 $table->string('name');
@@ -24,11 +25,15 @@ class Campaign extends Model
       return $this->hasMany('App\Supporter');
     }
 
+    public function invitations(){
+      return $this->hasMany('App\Invitation');
+    }
+
     public function calculation(){
       $complete = $this->amount;
       $funded = 0;
       $factor = 1;
-      $supporters = $this->supporters();
+      $supporters = Supporter::where('campaign_id', $this->id)->get();
       foreach($supporters as $supporter){
         $funded += $supporter->beitrag;
       }
@@ -42,6 +47,7 @@ class Campaign extends Model
 
       return (object)[
         'funded' => (100*($funded * $factor)) / $complete,
+        'funded_round' => round((100*($funded * $factor)) / $complete, 2),
         'factor' => $factor,
         'singlesupports' => 0,
         'complete' => $complete

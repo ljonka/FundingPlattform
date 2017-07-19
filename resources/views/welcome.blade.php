@@ -72,7 +72,9 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
+                        @if(count(App\User::all()) == 0)
+                          <a href="{{ url('/register') }}">Register</a>
+                        @endif
                     @endif
                 </div>
             @endif

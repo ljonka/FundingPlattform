@@ -29,4 +29,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::post('/kampagnen/{campaign}/einladen', 'CampaignController@invite');
+
 Route::resource( '/kampagnen', 'CampaignController');
+
+Route::get( '/foerdern/{campaign_uuid}/{invitation_uuid}',  'SupporterController@support');
+
+Route::resource( '/foerdern', 'SupporterController');

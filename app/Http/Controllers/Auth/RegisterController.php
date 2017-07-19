@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Redirect;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -36,7 +38,12 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $users = User::all();
+        if(count($users) == 0){
+          $this->middleware('guest');
+        }else{
+          Redirect::to('/')->send();
+        }
     }
 
     /**
