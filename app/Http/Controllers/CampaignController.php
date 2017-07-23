@@ -59,16 +59,17 @@ class CampaignController extends Controller
         if(empty($supporter->iban)){
           return "IBAN Empty: " . $supporter->vorname;
         }
+        $iban = str_replace(' ', '', $supporter->iban);
 
-        $bic = $ibanValidator->generateBic($supporter->iban);
+        $bic = $ibanValidator->generateBic($iban);
 
-        if($bic == "" || !$ibanValidator->validateIban($supporter->iban)){
+        if($bic == "" || !$ibanValidator->validateIban($iban)){
           return "Error with BIC or IBAN: " . $supporter->vorname;
         }
 
         $directDebit->addTransfer('patenschaften', array(
             'amount'                => $supporter->beitrag * $calculation->factor,
-            'debtorIban'            => $supporter->iban,
+            'debtorIban'            => $iban,
             'debtorBic'             => $bic,
             'debtorName'            => $supporter->vorname . " " . $supporter->nachname,
             'debtorMandate'         => substr($supporter->uuid, 0, 7),
