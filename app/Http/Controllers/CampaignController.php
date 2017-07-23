@@ -57,14 +57,16 @@ class CampaignController extends Controller
         // Add a Single Transaction to the named payment
 
         if(empty($supporter->iban)){
-          return "IBAN Empty: " . $supporter->vorname;
+          //return "IBAN Empty: " . $supporter->vorname;
+          continue;
         }
         $iban = str_replace(' ', '', $supporter->iban);
 
         $bic = $ibanValidator->generateBic($iban);
 
         if($bic == "" || !$ibanValidator->validateIban($iban)){
-          return "Error with BIC or IBAN: " . $supporter->vorname;
+          //return "Error with BIC or IBAN: " . $supporter->vorname;
+          continue;
         }
 
         $directDebit->addTransfer('patenschaften', array(
