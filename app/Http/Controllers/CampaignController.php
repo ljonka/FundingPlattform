@@ -59,7 +59,7 @@ class CampaignController extends Controller
         $bic = $ibanValidator->generateBic($supporter->iban);
 
         if($bic == "" || !$ibanValidator->validateIban($supporter->iban)){
-          return "BIC is Empty";
+          return "Error with BIC or IBAN: " . $supporter->name;
         }
 
         $directDebit->addTransfer('patenschaften', array(
