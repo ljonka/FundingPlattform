@@ -56,6 +56,10 @@ class CampaignController extends Controller
       foreach($supporters as $supporter){
         // Add a Single Transaction to the named payment
 
+        if(empty($supporter->iban)){
+          return "IBAN Empty: " . $supporter->vorname;
+        }
+
         $bic = $ibanValidator->generateBic($supporter->iban);
 
         if($bic == "" || !$ibanValidator->validateIban($supporter->iban)){
