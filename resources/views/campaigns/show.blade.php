@@ -22,7 +22,9 @@
                   </div>
 
                   <!-- Trigger the modal with a button -->
-                  <button type="button" class="btn btn-info col-md-3 col-md-offset-4" data-toggle="modal" data-target="#myModal">Einladungen</button>
+                  <button type="button" class="btn btn-info col-md-3 col-md-offset-3" data-toggle="modal" data-target="#myModal">Einladungen</button>
+                  <!-- Trigger the modal with a button -->
+                  <button type="button" class="btn btn-info col-md-3" data-toggle="modal" data-target="#sepa-export">Sepa-XML Export</button>
 
                   <!-- Modal -->
                   <div id="myModal" class="modal fade" role="dialog">
@@ -51,8 +53,32 @@
                     </div>
                   </div>
 
+                  <!-- Modal -->
+                  <div id="sepa-export" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <form id="sepa-export-form">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Sepa-XML Export</h4>
+                          </div>
+                          <div class="modal-body">
+                              Es wird ein aktueller Abzug der Patenschaften für eine Sammel-Lastschrift erzeugt.
+                          </div>
+                          <div class="modal-footer">
+                              <button type="submit" class="btn btn-default">XML Datei herunterladen</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -65,6 +91,22 @@ $.ajaxSetup({
 
 $('#myModal').on('shown.bs.modal', function () {
     $('#supporters').tagsinput('focus');
+});
+
+$('#sepa-export-form').submit(function(event){
+  /*
+  $.post({
+    url: '{{action("CampaignController@sepa", $campaign->id)}}',
+    data: {},
+    success: function(data, status){
+
+    },
+    dataType: 'json'
+  });
+  */
+  window.open('{{action("CampaignController@sepa", $campaign->id)}}');
+  $('#sepa-export').modal('hide');
+  event.preventDefault();
 });
 
 $('#invite-form').submit(function(event){

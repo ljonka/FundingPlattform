@@ -7,11 +7,82 @@ use App\Campaign;
 use App\Invitation;
 use App\Notifications\CampaignInvited;
 use App\Supporter;
+use Digitick\Sepa\TransferFile\Factory\TransferFileFacadeFactory;
+use Digitick\Sepa\PaymentInformation;
+use Carbon\Carbon;
+use Shapecode\Bundle\IbanBundle\Iban\IbanGenerator;
+use Shapecode\Bundle\IbanBundle\Iban\IbanApiDeApi;
 
 class CampaignController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
+    }
+
+    public function sepa(Request $request, $id){
+
+      //get all supporter for given campaign
+      $campaign = Campaign::find($id);
+      $supporters = Supporter::where([
+        ['campaign_id', $campaign->id],
+        ['beitrag', '>', 0]
+        ])->get();
+
+      //Set the initial information
+      $directDebit = TransferFileFacadeFactory::createDirectDebit(
+        'Transition Regensburg', $campaign->name
+      );
+      // create a payment, it's possible to create multiple payments,
+      // "firstPayment" is the identifier for the transactions
+      $transitionIban = 'DE68430609678217364100';
+      $ibanValidator = new IbanGenerator(new IbanApiDeApi());
+      $bic = $ibanValidator->generateBic($transitionIban);
+
+      if($bic == "" || !$ibanValidator->validateIban($transitionIban)){
+        return "BIC is Empty or IBAN incorrect";
+      }
+      $directDebit->addPaymentInfo('patenschaften', array(
+          'id'                    => 'patenschaften',
+          'creditorName'          => 'Transition Regensburg e.V.',
+          'creditorAccountIBAN'   => $transitionIban,
+          'creditorAgentBIC'      => $bic,//'GENODEM1GLS',
+          'seqType'               => PaymentInformation::S_ONEOFF,
+          'creditorId'            => 'DE17ZZZ00000441401'
+      ));
+
+      $calculation = $campaign->calculation();
+
+      foreach($supporters as $supporter){
+        // Add a Single Transaction to the named payment
+        $input  = $supporter->updated_at;
+        $format = 'd.m.Y';
+        $date = Carbon::createFromFormat($format, $input);
+
+        $bic = $ibanValidator->generateBic($supporter->iban);
+
+        if($bic == "" || !$ibanValidator->validateIban($supporter->iban)){
+          return "BIC is Empty";
+        }
+
+        $directDebit->addTransfer('patenschaften', array(
+            'amount'                => $supporter->amount * $calculation->$factor,
+            'debtorIban'            => $supporter->iban,
+            'debtorBic'             => $bic,
+            'debtorName'            => $supporter->vorname . " " . $supporter->nachname,
+            'debtorMandate'         => substr($supporter->uuid, 0, 7),
+            'debtorMandateSignDate' => $date,
+            'remittanceInformation' => 'Transition Regensburg Patenschaft ' . $campaign->name,
+            //s'otherIdentification'   => '>>NOTPROVIDED<<'
+        ));
+      }
+
+      $dt = Carbon::now();
+      return response($directDebit->asXML())
+          ->withHeaders([
+              'Content-Type' => 'text/xml',
+              'Content-Disposition' =>
+                'attachment; filename="sepa-transition-puerkelgut-patenschaften-'.$dt->toDateString().'.xml"'
+          ]);;
     }
 
     public function invite(Request $request, $id){

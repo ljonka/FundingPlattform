@@ -30,6 +30,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/kampagnen/{campaign}/einladen', 'CampaignController@invite');
+Route::get('/kampagnen/{campaign}/sepa', 'CampaignController@sepa');
 
 Route::resource( '/kampagnen', 'CampaignController');
 
