@@ -63,7 +63,7 @@ class CampaignController extends Controller
         }
 
         $directDebit->addTransfer('patenschaften', array(
-            'amount'                => $supporter->beitrag * $calculation->$factor,
+            'amount'                => $supporter->beitrag * $calculation->factor,
             'debtorIban'            => $supporter->iban,
             'debtorBic'             => $bic,
             'debtorName'            => $supporter->vorname . " " . $supporter->nachname,
