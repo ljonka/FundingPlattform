@@ -52,11 +52,9 @@ class CampaignController extends Controller
 
       $calculation = $campaign->calculation();
 
+      Carbon::setToStringFormat('d.m.Y');
       foreach($supporters as $supporter){
         // Add a Single Transaction to the named payment
-        $input  = $supporter->updated_at;
-        $format = 'd.m.Y';
-        $date = Carbon::createFromFormat($format, $input);
 
         $bic = $ibanValidator->generateBic($supporter->iban);
 
@@ -70,11 +68,12 @@ class CampaignController extends Controller
             'debtorBic'             => $bic,
             'debtorName'            => $supporter->vorname . " " . $supporter->nachname,
             'debtorMandate'         => substr($supporter->uuid, 0, 7),
-            'debtorMandateSignDate' => $date,
+            'debtorMandateSignDate' => (string)$supporter->updated_at,
             'remittanceInformation' => 'Transition Regensburg Patenschaft ' . $campaign->name,
             //s'otherIdentification'   => '>>NOTPROVIDED<<'
         ));
       }
+      Carbon::resetToStringFormat();
 
       $dt = Carbon::now();
       return response($directDebit->asXML())
